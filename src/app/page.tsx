@@ -1,7 +1,16 @@
-import Image from "next/image";
+import Link from 'next/link';
+import { db } from '@/db';
 
-export default function Home() {
+export default async function Home() {
+  const snippets = await db.snippet.findMany();
+
   return (
-    <h1>Snippy</h1>
+    <ul>
+      {snippets.map((snippet) => (
+        <li key={snippet.id}>
+          <Link href={`/snippets/${snippet.id}`}>{snippet.title}</Link>
+        </li>
+      ))}
+    </ul>
   );
 }
