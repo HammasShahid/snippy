@@ -5,8 +5,12 @@ export default async function Home() {
   const snippets = await db.snippet.findMany();
 
   return (
-    <div className="flex flex-col gap-8">
-      <h1 className="font-bold text-4xl">Snippets</h1>
+    <div className="flex flex-col gap-10">
+      <div className="flex justify-between items-center">
+        
+        <h1 className="font-bold text-4xl">Snippets</h1>
+        <Link href="/snippets/new" className="border rounded py-3 px-5 text-xl">New</Link>
+      </div>
 
       <ul className="flex flex-col gap-3">
         {snippets.map((snippet) => (
