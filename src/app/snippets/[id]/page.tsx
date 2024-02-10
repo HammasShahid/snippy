@@ -12,7 +12,15 @@ export default async function SnippetShowPage({ params: { id } }: Props) {
 
   return (
     <div className="flex flex-col gap-5">
-      <h1 className="text-2xl font-semibold">{snippet.title}</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-semibold">{snippet.title}</h1>
+        <Link
+          href={`/snippets/${snippet.id}/edit`}
+          className="border border-green-600 text-green-600 p-3 hover:text-white hover:bg-green-600"
+        >
+          Edit
+        </Link>
+      </div>
       <pre className="bg-gray-300 p-3 rounded text-lg">{snippet.code}</pre>
     </div>
   );
