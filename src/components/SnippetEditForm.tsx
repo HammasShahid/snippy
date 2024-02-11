@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Editor from '@monaco-editor/react';
 import { Snippet } from '@prisma/client';
+import { editSnippet } from '@/actions';
 
 interface Props {
   snippet: Snippet;
@@ -16,6 +17,12 @@ export default function SnippetEditForm({ snippet }: Props) {
     setCurrentCode(code);
   };
 
+  const editSnippetAction = editSnippet.bind(null, {
+    id: snippet.id,
+    title,
+    code: currentCode,
+  });
+
   return (
     <div className="flex flex-col gap-12">
       <div className="flex justify-between gap-5 items-center">
@@ -28,9 +35,15 @@ export default function SnippetEditForm({ snippet }: Props) {
             onChange={(e) => setTitle(e.currentTarget.value)}
           />
         </div>
-        <button className="border border-teal-500 text-teal-500 font-bold py-2 px-4 hover:bg-teal-500 hover:text-white transition-all">
-          Done
-        </button>
+
+        <form action={editSnippetAction}>
+          <button
+            type="submit"
+            className="border border-teal-500 text-teal-500 font-bold py-2 px-4 hover:bg-teal-500 hover:text-white transition-all"
+          >
+            Done
+          </button>
+        </form>
       </div>
 
       <Editor
