@@ -10,6 +10,11 @@ export const editSnippet = async (snippet: Snippet) => {
   const code = snippet.code;
 
   await db.snippet.update({ where: { id }, data: { title, code } });
-  console.log("done")
+  console.log('done');
   redirect(`/snippets/${id}`);
+};
+
+export const deleteSnippet = async (id: number) => {
+  await db.snippet.delete({ where: { id } });
+  redirect('/');
 };
