@@ -4,16 +4,32 @@ import { Snippet } from '@prisma/client';
 import { redirect } from 'next/navigation';
 import { db } from '@/db';
 
-export const addNewSnippet = async (formData: FormData) => {
-  const title = formData.get('title') as string;
-  const code = formData.get('code') as string;
+export const addNewSnippet = async (
+  formState: { message: string },
+  formData: FormData
+) => {
+  const title = formData.get('title');
+  const code = formData.get('code');
 
-  await db.snippet.create({
-    data: {
-      title,
-      code,
-    },
-  });
+  if (typeof title !== 'string' || title.length < 3)
+    return { message: 'Title must be at least 3 characters long' };
+  if (typeof code !== 'string' || code.length < 3)
+    return { message: 'Code must be at least 3 characters long' };
+
+  try {
+    await db.snippet.create({
+      data: {
+        title,
+        code,
+      },
+    });
+  } catch (error) {
+    const message =
+      error instanceof Error
+        ? error.message
+        : 'Something went wrong. Could not create the snippet.';
+    return { message };
+  }
 
   redirect('/');
 };
