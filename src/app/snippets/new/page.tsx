@@ -1,23 +1,6 @@
-import { redirect } from 'next/navigation';
-import { db } from '@/db';
+import { addNewSnippet } from '@/actions';
 
 export default function NewSnippetPage() {
-  const addNewSnippet = async (formData: FormData) => {
-    'use server';
-
-    const title = formData.get('title') as string;
-    const code = formData.get('code') as string;
-
-    await db.snippet.create({
-      data: {
-        title,
-        code,
-      },
-    });
-
-    redirect('/');
-  };
-
   return (
     <>
       <h1 className="text-4xl font-semibold tracking-wider mb-12">
