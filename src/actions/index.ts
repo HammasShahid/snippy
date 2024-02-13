@@ -42,8 +42,9 @@ export const editSnippet = async (snippet: Snippet) => {
   const code = snippet.code;
 
   await db.snippet.update({ where: { id }, data: { title, code } });
-  console.log('done');
+
   revalidatePath('/');
+  revalidatePath(`/snippets/${id}`);
   redirect(`/snippets/${id}`);
 };
 
