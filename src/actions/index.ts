@@ -2,6 +2,7 @@
 
 import { Snippet } from '@prisma/client';
 import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 import { db } from '@/db';
 
 export const addNewSnippet = async (
@@ -31,6 +32,7 @@ export const addNewSnippet = async (
     return { message };
   }
 
+  revalidatePath('/');
   redirect('/');
 };
 
@@ -41,10 +43,12 @@ export const editSnippet = async (snippet: Snippet) => {
 
   await db.snippet.update({ where: { id }, data: { title, code } });
   console.log('done');
+  revalidatePath('/');
   redirect(`/snippets/${id}`);
 };
 
 export const deleteSnippet = async (id: number) => {
   await db.snippet.delete({ where: { id } });
+  revalidatePath('/');
   redirect('/');
 };
